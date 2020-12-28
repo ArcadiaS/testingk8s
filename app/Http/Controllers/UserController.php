@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -21,7 +22,7 @@ class UserController extends Controller
      */
     public function index(IndexUserRequest $request)
     {
-        //
+        return UserResource::collection(User::all());
     }
 
     /**
@@ -32,7 +33,21 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        try {
+            $user = User::create($request->validated());
+
+            if (! $user) {
+                abort(404, 'Something went wrong');
+            }
+
+            return response()->json([
+                'message' => 'User created successfully.',
+            ], 201);
+        } catch (\Exception $e) {
+            abort(404, $e->getMessage());
+        }
+
+        return abort(404, 'Something went wrong.');
     }
 
     /**
@@ -40,11 +55,11 @@ class UserController extends Controller
      *
      * @param  \App\Http\Requests\ShowUserRequest  $request
      * @param $user
-     * @return void
+     * @return \App\Http\Resources\UserResource
      */
-    public function show(ShowUserRequest $request, $user)
+    public function show(ShowUserRequest $request, User $user)
     {
-        //
+        return UserResource::make($user);
     }
 
     /**
@@ -56,7 +71,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $user)
     {
-        //
+        abort_unless($user->update($request->validated()), 'User update failed.');
+
+        return response()->noContent();
     }
 
     /**
@@ -68,6 +85,8 @@ class UserController extends Controller
      */
     public function destroy(DestroyUserRequest $request, $user)
     {
-        //
+        abort_unless($user->delete(), 'User deletion failed.');
+
+        return response()->noContent();
     }
 }
