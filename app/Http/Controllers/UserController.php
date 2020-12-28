@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     /**
+     * @group User Resource
      * Display a listing of the resource.
+     *
+     * @apiResourceCollection App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
      *
      * @param  \App\Http\Requests\IndexUserRequest  $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -26,9 +30,13 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @group User Resource
+     * Create a new resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @apiResourceCollection App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
+     *
+     * @param  \App\Http\Requests\StoreUserRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUserRequest $request)
@@ -51,10 +59,14 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @group User Resource
+     * Display the resource.
      *
+     * @apiResourceCollection App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
      * @param  \App\Http\Requests\ShowUserRequest  $request
      * @param $user
+     * @bodyParams user int required The id of the user. Example: 12345
      * @return \App\Http\Resources\UserResource
      */
     public function show(ShowUserRequest $request, User $user)
@@ -63,10 +75,14 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @group User Resource
+     * Update specified resource.
      *
+     * @apiResourceCollection App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
      * @param  \App\Http\Requests\UpdateUserRequest  $request
      * @param $user
+     * @bodyParams user int required The id of the user. Example: 12345
      * @return void
      */
     public function update(UpdateUserRequest $request, $user)
@@ -77,10 +93,14 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @group User Resource
+     * Remove specified resource from db.
      *
+     * @apiResourceCollection App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
      * @param  \App\Http\Requests\DestroyUserRequest  $request
      * @param $user
+     * @bodyParams user int required The id of the user. Example: 12345
      * @return void
      */
     public function destroy(DestroyUserRequest $request, $user)
