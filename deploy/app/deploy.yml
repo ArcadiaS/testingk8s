@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task-k8s
+  template:
+    metadata:
+      labels:
+        app: task-k8s
+    spec:
+      containers:
+      - name: task-k8s
+        image: docker.io/arcadias/laravel-on-k8s:v1
+        volumeMounts:
+        - name: app-secret
+          mountPath: "/var/www/html/secret"
+          readOnly: true
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      volumes:
+      - name: app-secret
+        secret:
+          secretName: task-k8s-secret
+      imagePullSecrets:
+      - name: regsecret
