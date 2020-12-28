@@ -1,0 +1,10 @@
+minikube start
+kubectl apply -f deploy/app/secret.yml
+kubectl apply -f deploy/app/deploy.yml
+kubectl apply -f deploy/app/service.yml
+minikube service laravel-project —url
+
+DB host = database
+DB user = root
+DB pass  = cokgizlipass07
+DB = laravel
