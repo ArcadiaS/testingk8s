@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: laravel
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: task-k8s
@@ -13,18 +13,18 @@ spec:
         app: task-k8s
     spec:
       containers:
-      - name: task-k8s
-        image: docker.io/arcadias/laravel-on-k8s:v1
-        volumeMounts:
-        - name: app-secret
-          mountPath: "/var/www/html/secret"
-          readOnly: true
-        ports:
-        - containerPort: 80
-          protocol: TCP
+        - name: task-k8s
+          image: docker.io/arcadias/laravel-on-k8s:v1
+          volumeMounts:
+            - name: app-secret
+              mountPath: "/var/www/html/secret"
+              readOnly: true
+          ports:
+            - containerPort: 80
+              protocol: TCP
       volumes:
-      - name: app-secret
-        secret:
-          secretName: task-k8s-secret
+        - name: app-secret
+          secret:
+            secretName: task-k8s-secret
       imagePullSecrets:
-      - name: regsecret
+        - name: regsecret
